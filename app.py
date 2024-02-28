@@ -12,5 +12,11 @@ if uploaded_file is not None:
     st.dataframe(df)
 
     user_list = df.user.unique().tolist()
+    user_list.remove('group_notification')
+    user_list.sort()
+    user_list.insert(0, 'Overall')
 
     st.sidebar.selectbox('Analysis with respect to', user_list)
+
+    if st.sidebar.button('Show Analysis'):
+        ...
