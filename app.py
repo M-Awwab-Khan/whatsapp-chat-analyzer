@@ -10,3 +10,7 @@ if uploaded_file is not None:
     df = preprocess(data)
 
     st.dataframe(df)
+
+    user_list = df.user.unique().tolist()
+
+    st.sidebar.selectbox('Analysis with respect to', user_list)
