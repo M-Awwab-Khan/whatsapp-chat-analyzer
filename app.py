@@ -22,6 +22,11 @@ if uploaded_file is not None:
     if st.sidebar.button('Show Analysis'):
         col1, col2, col3, col4 = st.columns(4)
 
+        num_messages, num_words = fetch_stats(selected_user, df)
         with col1:
             st.header('Total Messages')
-            st.title(fetch_stats(selected_user, df))
+            st.title(num_messages)
+
+        with col2:
+            st.header("Total Words")
+            st.title(num_words)
