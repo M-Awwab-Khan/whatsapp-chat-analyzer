@@ -59,3 +59,10 @@ if uploaded_file is not None:
             with col2:
                 axs[1].pie(proportion_active_users.percent.head(10), labels = proportion_active_users.name.head(10), textprops={'fontsize': 7}, autopct='%1.2f%%', colors=sns.color_palette('hls'))
             st.pyplot(fig)
+
+        # wordcloud
+        st.title("Wordcloud")
+        df_wc = create_wordcloud(selected_user,df)
+        fig,ax = plt.subplots()
+        ax.imshow(df_wc)
+        st.pyplot(fig)
