@@ -1,7 +1,8 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users
+from helper import fetch_stats, most_active_users, create_wordcloud
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 st.sidebar.title('Whatsapp Chat Analyzer')
 
@@ -44,14 +45,17 @@ if uploaded_file is not None:
         if selected_user == 'Overall':
             st.title('Most Active Users')
             active_users, proportion_active_users = most_active_users(df)
-            fig, ax = plt.subplots()
+            fig, axs = plt.subplots(1, 2, figsize=(10, 5))
 
             col1, col2 = st.columns(2)
 
             with col1:
-                ax.bar(active_users.index, active_users.values, color='red')
-                plt.xticks(rotation='vertical')
-                st.pyplot(fig)
-
+                axs[0].bar(active_users.index, active_users.values, color='red')
+                axs[0].set_xticklabels(labels=active_users.index, rotation=90)
+                axs[0].set_title('Most Active Users', fontsize=10)
+                axs[0].set_xlabel('Name', fontsize=8)
+                axs[0].set_ylabel('Messages', fontsize=8)
+                axs[0].tick_params(labelsize=7)
             with col2:
-                st.dataframe(proportion_active_users)
+                axs[1].pie(proportion_active_users.percent.head(10), labels = proportion_active_users.name.head(10), textprops={'fontsize': 7}, autopct='%1.2f%%', colors=sns.color_palette('hls'))
+            st.pyplot(fig)
