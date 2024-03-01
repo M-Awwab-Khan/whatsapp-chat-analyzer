@@ -16,4 +16,6 @@ def fetch_stats(selected_user, df):
     return num_messages, num_words, num_media, num_links
 
 def most_active_users(df):
-    return df['user'].value_counts().head()
+    active_users = df['user'].value_counts().head()
+    proportion_active_users = round(df['user'].value_counts(normalize=True)*100, 2).reset_index().rename(columns={'index': 'name', 'user': 'percent'})
+    return active_users, proportion_active_users
