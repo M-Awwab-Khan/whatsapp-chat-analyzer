@@ -2,6 +2,7 @@ from urlextract import URLExtract
 from wordcloud import WordCloud
 from collections import Counter
 import pandas as pd
+import string
 extractor = URLExtract()
 
 def fetch_stats(selected_user, df):
@@ -45,7 +46,7 @@ def most_common_words(selected_user, df):
 
     for msg in temp['message']:
         for word in msg.lower().split():
-            if word not in stopwords:
+            if word not in stopwords and word not in string.punctuation:
                 words.append(word)
     
     most_common_20_df = pd.DataFrame(Counter(words).most_common(20))
