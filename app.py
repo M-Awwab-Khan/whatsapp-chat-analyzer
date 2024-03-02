@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -66,3 +66,6 @@ if uploaded_file is not None:
         fig,ax = plt.subplots()
         ax.imshow(df_wc)
         st.pyplot(fig)
+
+        most_common_20_df = most_common_words(selected_user, df)
+        st.dataframe(most_common_20_df)
