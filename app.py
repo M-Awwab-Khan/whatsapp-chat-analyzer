@@ -67,5 +67,12 @@ if uploaded_file is not None:
         ax.imshow(df_wc)
         st.pyplot(fig)
 
+        # most common words
         most_common_20_df = most_common_words(selected_user, df)
-        st.dataframe(most_common_20_df)
+
+        fig,ax = plt.subplots()
+        most_common_20_df.sort_values(1, inplace=True)
+        ax.barh(most_common_20_df[0], most_common_20_df[1], color='red')
+
+        st.title('Most commmon words')
+        st.pyplot(fig)
