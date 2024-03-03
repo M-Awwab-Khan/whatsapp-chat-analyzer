@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -47,6 +47,14 @@ if uploaded_file is not None:
         timeline = monthly_timeline(selected_user,df)
         fig,ax = plt.subplots()
         ax.plot(timeline['time'], timeline['message'],color='red')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        # daily timeline
+        st.title("Daily Timeline")
+        daily_timeline = daily_timeline(selected_user, df)
+        fig, ax = plt.subplots()
+        ax.plot(daily_timeline['only_date'], daily_timeline['message'], color='red')
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
