@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -12,7 +12,7 @@ if uploaded_file is not None:
     data = bytes_data.decode('utf-8')
     df = preprocess(data)
 
-    st.dataframe(df)
+    #st.dataframe(df)
 
     user_list = df.user.unique().tolist()
     user_list.remove('group_notification')
@@ -25,6 +25,7 @@ if uploaded_file is not None:
         col1, col2, col3, col4 = st.columns(4)
 
         num_messages, num_words, num_media, num_links = fetch_stats(selected_user, df)
+        st.title("Top Statistics")
         with col1:
             st.header('Total Messages')
             st.title(num_messages)
@@ -40,6 +41,14 @@ if uploaded_file is not None:
         with col4:
             st.header("Links Shared")
             st.title(num_links)
+
+        #monthly timeline
+        st.title("Monthly Timeline")
+        timeline = monthly_timeline(selected_user,df)
+        fig,ax = plt.subplots()
+        ax.plot(timeline['time'], timeline['message'],color='red')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
 
         # finding the active users in the group(Group level)
         if selected_user == 'Overall':
