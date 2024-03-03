@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -76,3 +76,16 @@ if uploaded_file is not None:
 
         st.title('Most commmon words')
         st.pyplot(fig)
+
+        # emoji analysis
+        emoji_df = emoji_helper(selected_user,df)
+        st.title("Emoji Analysis")
+
+        col1,col2 = st.columns(2)
+
+        with col1:
+            st.dataframe(emoji_df)
+        with col2:
+            fig,ax = plt.subplots()
+            ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
+            st.pyplot(fig)
