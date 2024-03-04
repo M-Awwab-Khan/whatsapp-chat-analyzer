@@ -32,5 +32,16 @@ def preprocess(data):
     df['month_num'] = df['date'].dt.month
     df['only_date'] = df['date'].dt.date
     df['day_name'] = df['date'].dt.day_name()
+    period = []
+
+    for hour in df['hour']:
+        if hour == 0:
+            period.append(f"00-{hour+1}")
+        elif hour == 23:
+            period.append(f"{hour}-00")
+        else:
+            period.append(f"{hour}-{hour+1}")
+
+    df['period'] = period
 
     return df
