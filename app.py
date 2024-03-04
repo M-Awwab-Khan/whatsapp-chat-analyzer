@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline, week_activity_map
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -57,6 +57,18 @@ if uploaded_file is not None:
         ax.plot(daily_timeline['only_date'], daily_timeline['message'], color='red')
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
+
+        # activity map
+        st.title('Activity Map')
+        col1,col2 = st.columns(2)
+
+        with col1:
+            st.header("Most active day")
+            busy_day = week_activity_map(selected_user,df)
+            fig,ax = plt.subplots()
+            ax.bar(busy_day.index,busy_day.values,color='red')
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)
 
         # finding the active users in the group(Group level)
         if selected_user == 'Overall':
