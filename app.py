@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline, week_activity_map, month_activity_map
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline, week_activity_map, month_activity_map, activity_heatmap
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -77,6 +77,12 @@ if uploaded_file is not None:
             ax.bar(busy_month.index, busy_month.values,color='red')
             plt.xticks(rotation='vertical')
             st.pyplot(fig)
+
+        st.title("Weekly Activity Map")
+        user_heatmap = activity_heatmap(selected_user,df)
+        fig,ax = plt.subplots(figsize=(20, 6))
+        ax = sns.heatmap(user_heatmap)
+        st.pyplot(fig)
 
         # finding the active users in the group(Group level)
         if selected_user == 'Overall':
