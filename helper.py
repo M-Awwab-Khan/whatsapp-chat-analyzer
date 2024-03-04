@@ -98,3 +98,10 @@ def daily_timeline(selected_user,df):
     daily_timeline = df.groupby('only_date').count()['message'].reset_index()
 
     return daily_timeline
+
+def week_activity_map(selected_user, df):
+
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    return df['day_name'].value_counts()
