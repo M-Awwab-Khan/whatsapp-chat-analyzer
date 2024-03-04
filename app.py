@@ -1,6 +1,6 @@
 import streamlit as st
 from preprocessor import preprocess
-from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline, week_activity_map
+from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline, week_activity_map, month_activity_map
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -67,6 +67,14 @@ if uploaded_file is not None:
             busy_day = week_activity_map(selected_user,df)
             fig,ax = plt.subplots()
             ax.bar(busy_day.index,busy_day.values,color='red')
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)
+
+        with col2:
+            st.header("Most busy month")
+            busy_month = month_activity_map(selected_user, df)
+            fig, ax = plt.subplots()
+            ax.bar(busy_month.index, busy_month.values,color='red')
             plt.xticks(rotation='vertical')
             st.pyplot(fig)
 
