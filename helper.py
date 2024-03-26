@@ -46,7 +46,7 @@ def most_common_words(selected_user, df):
         for word in msg.lower().split():
             words.append(word)
     
-    most_common_20_df = pd.DataFrame(Counter(words).most_common(20))
+    most_common_20_df = pd.DataFrame(Counter(words).most_common(20)).rename(columns={0: 'word', 1: 'count'}).sort_values('count', ascending=True)
     return most_common_20_df
 
 def process_message(df):
