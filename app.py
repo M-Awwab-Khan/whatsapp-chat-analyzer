@@ -136,7 +136,7 @@ if uploaded_file is not None:
                 pie_fig = go.Figure(go.Pie(
                     labels=proportion_active_users['name'].head(10),
                     values=proportion_active_users['percent'].head(10),
-                    textinfo='percent',
+                    textinfo='label+percent',
                     marker=dict(colors=sns.color_palette('hls')),
                 ))
                 
@@ -182,11 +182,23 @@ if uploaded_file is not None:
         emoji_df = emoji_helper(selected_user,df)
         st.title("Emoji Analysis")
 
-        col1,col2 = st.columns(2)
+        col1,col2 = st.columns([1, 3])
 
         with col1:
             st.dataframe(emoji_df)
         with col2:
-            fig,ax = plt.subplots()
-            ax.pie(emoji_df[1].head(),labels=emoji_df[0].head(),autopct="%0.2f")
-            st.pyplot(fig)
+            # Create a Plotly pie chart
+            fig = go.Figure(go.Pie(
+                labels=emoji_df['emoji'].head(),
+                values=emoji_df['count'].head(),
+                textinfo='label+percent',
+                marker=dict(colors=sns.color_palette('hls'))
+            ))
+            
+            # Update layout for the plot
+            fig.update_layout(
+                title='Emoji Distribution',
+            )
+            
+            # Display the Plotly figure
+            st.plotly_chart(fig)
