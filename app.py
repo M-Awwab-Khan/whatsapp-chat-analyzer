@@ -154,15 +154,29 @@ if uploaded_file is not None:
         ax.imshow(df_wc)
         st.pyplot(fig)
 
-        # most common words
+        # Get the most common words DataFrame
         most_common_20_df = most_common_words(selected_user, df)
+        
+        # Create a Plotly horizontal bar plot
+        fig = go.Figure(go.Bar(
+            y=most_common_20_df['word'],
+            x=most_common_20_df['count'],
+            orientation='h',  # Set orientation to horizontal
+            marker_color='red',
+        ))
+        
+        # Update layout for the plot
+        fig.update_layout(
+            title='Most Common Words',
+            xaxis=dict(title='Count'),
+            yaxis=dict(title='Word'),
+            width=1000,
+            height=700
+        )
+        
+        # Display the Plotly figure
+        st.plotly_chart(fig)
 
-        fig,ax = plt.subplots()
-        most_common_20_df.sort_values(1, inplace=True)
-        ax.barh(most_common_20_df[0], most_common_20_df[1], color='red')
-
-        st.title('Most commmon words')
-        st.pyplot(fig)
 
         # emoji analysis
         emoji_df = emoji_helper(selected_user,df)
