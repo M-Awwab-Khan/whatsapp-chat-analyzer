@@ -106,7 +106,7 @@ if uploaded_file is not None:
         st.title("Weekly Activity Map")
         user_heatmap = activity_heatmap(selected_user,df)
         fig,ax = plt.subplots(figsize=(20, 6))
-        ax = sns.heatmap(user_heatmap)
+        ax = sns.heatmap(user_heatmap, cmap='Reds')
         st.pyplot(fig)
 
         # finding the active users in the group(Group level)
