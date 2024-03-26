@@ -55,17 +55,24 @@ if uploaded_file is not None:
             xaxis=dict(title='Time', tickfont=dict(size=14)),
             yaxis=dict(title='Message',tickfont=dict(size=14)),
             xaxis_tickangle=-90,
-            width=1000
+            autosize=True
         )
         st.plotly_chart(fig)
 
         # daily timeline
         st.title("Daily Timeline")
-        daily_timeline = daily_timeline(selected_user, df)
-        fig, ax = plt.subplots()
-        ax.plot(daily_timeline['only_date'], daily_timeline['message'], color='red')
-        plt.xticks(rotation='vertical')
-        st.pyplot(fig)
+        d_timeline = daily_timeline(selected_user, df)
+        fig = go.Figure()
+        
+        fig.add_trace(go.Scatter(x=d_timeline['only_date'], y=d_timeline['message'], mode='lines', marker=dict(color='red')))
+        
+        fig.update_layout(
+            xaxis=dict(title='Time', tickfont=dict(size=14)),
+            yaxis=dict(title='Message',tickfont=dict(size=14)),
+            xaxis_tickangle=-90,
+            autosize=True
+        )
+        st.plotly_chart(fig)
 
         # activity map
         st.title('Activity Map')
@@ -74,18 +81,27 @@ if uploaded_file is not None:
         with col1:
             st.header("Most active day")
             busy_day = week_activity_map(selected_user,df)
-            fig,ax = plt.subplots()
-            ax.bar(busy_day.index,busy_day.values,color='red')
-            plt.xticks(rotation='vertical')
-            st.pyplot(fig)
+            # Create a Plotly figure
+            fig = go.Figure()    
+            fig.add_trace(go.Bar(x=busy_day.index, y=busy_day.values, marker_color='red'))
+            fig.update_layout(
+                xaxis=dict(title='Weekday'),
+                yaxis=dict(title='Messages'),
+                autosize=True
+            )
+            st.plotly_chart(fig)
 
         with col2:
-            st.header("Most busy month")
+            st.header("Most active month")
             busy_month = month_activity_map(selected_user, df)
-            fig, ax = plt.subplots()
-            ax.bar(busy_month.index, busy_month.values,color='red')
-            plt.xticks(rotation='vertical')
-            st.pyplot(fig)
+            fig = go.Figure()    
+            fig.add_trace(go.Bar(x=busy_month.index, y=busy_month.values, marker_color='red'))
+            fig.update_layout(
+                xaxis=dict(title='Month'),
+                yaxis=dict(title='Messages'),
+                autosize=True
+            )
+            st.plotly_chart(fig)
 
         st.title("Weekly Activity Map")
         user_heatmap = activity_heatmap(selected_user,df)
