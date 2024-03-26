@@ -3,6 +3,8 @@ from preprocessor import preprocess
 from helper import fetch_stats, most_active_users, create_wordcloud, most_common_words, emoji_helper, monthly_timeline, daily_timeline, week_activity_map, month_activity_map, activity_heatmap
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
+
 
 st.sidebar.title('Whatsapp Chat Analyzer')
 
@@ -45,10 +47,17 @@ if uploaded_file is not None:
         #monthly timeline
         st.title("Monthly Timeline")
         timeline = monthly_timeline(selected_user,df)
-        fig,ax = plt.subplots()
-        ax.plot(timeline['time'], timeline['message'],color='red')
-        plt.xticks(rotation='vertical')
-        st.pyplot(fig)
+        fig = go.Figure()
+        
+        fig.add_trace(go.Scatter(x=timeline['time'], y=timeline['message'], mode='lines', marker=dict(color='red')))
+        
+        fig.update_layout(
+            xaxis=dict(title='Time', tickfont=dict(size=14)),
+            yaxis=dict(title='Message',tickfont=dict(size=14)),
+            xaxis_tickangle=-90,
+            width=1000
+        )
+        st.plotly_chart(fig)
 
         # daily timeline
         st.title("Daily Timeline")
